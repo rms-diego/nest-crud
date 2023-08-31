@@ -7,3 +7,10 @@ export const createUserSchema = zod.object({
 });
 
 export type CreateUserDTO = zod.infer<typeof createUserSchema>;
+
+export const loginUserSchema = zod.object({
+  email: zod.string().email(),
+  password: zod.string(),
+});
+
+export type LoginUserDTO = zod.infer<typeof loginUserSchema>;
