@@ -12,12 +12,12 @@ export class UserService {
 
     if (userFound) throw new HttpException('user already exists', 400);
 
-    const createHashPassword = await bcrypt.hash(password, 10);
+    const hashPassword = await bcrypt.hash(password, 10);
 
     const userPayload = {
       email,
       name,
-      password: createHashPassword,
+      password: hashPassword,
     };
 
     const userCreated = await this.userRepository.createUser(userPayload);
