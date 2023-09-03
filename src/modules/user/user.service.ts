@@ -4,12 +4,14 @@ import * as bcrypt from 'bcrypt';
 
 import { CreateUserDTO, LoginUserDTO } from './userTypes';
 import { UserRepository } from './user.repository';
+import { AccountService } from '../account/account.service';
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
     private jwtService: JwtService,
+    private readonly accountService: AccountService,
   ) {}
 
   async createUser({ email, name, password }: CreateUserDTO) {
@@ -26,6 +28,8 @@ export class UserService {
     };
 
     const userCreated = await this.userRepository.createUser(userPayload);
+
+    await this.accountService.createAccount(userCreated.id);
 
     return userCreated;
   }
